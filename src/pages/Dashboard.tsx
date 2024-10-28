@@ -1,7 +1,5 @@
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { Calendar, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 import axios from 'axios';
+import { AlertCircle, Calendar, CheckCircle, Clock, XCircle } from 'lucide-react';
 
 interface Meeting {
   id: string;
@@ -14,6 +12,17 @@ interface Meeting {
   };
 }
 
+// const TestMeeting = {
+//   id: '1',
+//   dateTime: '2021-10-01T10:00:00Z',
+//   status: 'recommended',
+//   mentee: {
+//     id: '1',
+//     name: 'John Doe',
+//     email: 'johndoe@gmail.com'
+//   }
+// }
+
 export function Dashboard() {
   const { data: meetings, isLoading } = useQuery({
     queryKey: ['meetings'],
@@ -22,6 +31,8 @@ export function Dashboard() {
       return response.data as Meeting[];
     },
   });
+
+  // const meetings = [TestMeeting];
 
   const handleStatusUpdate = async (meetingId: string, status: Meeting['status']) => {
     await axios.patch(`/api/meetings/${meetingId}`, { status });
